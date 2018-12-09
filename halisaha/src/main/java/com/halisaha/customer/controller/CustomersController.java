@@ -3,7 +3,6 @@ package com.halisaha.customer.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,15 +53,13 @@ public class CustomersController {
 		int id = customer.getId();
 		String email = customer.getEmail();
 		String password = customer.getPassword();
-		BCryptPasswordEncoder pw = new BCryptPasswordEncoder();
-		String hashedPassword = pw.encode(password);
-		customer.setPassword(hashedPassword);
+		customer.setPassword(password);
 		cutomerService.addUser(customer);
 		
 		Roles userRole = new Roles(email,"ROLE_USER");
 		rolesService.addRoles(userRole);
 		
-		Users users = new Users(id,email,hashedPassword,1);
+		Users users = new Users(id,email,password,1);
 		usersService.addUser(users);
 		
 		

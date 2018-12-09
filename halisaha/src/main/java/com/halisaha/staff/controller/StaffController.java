@@ -3,7 +3,6 @@ package com.halisaha.staff.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,15 +48,13 @@ public class StaffController {
 		int id = staff.getId();
 		String email = staff.getEmail();
 		String password = staff.getPassword();
-		BCryptPasswordEncoder pw = new BCryptPasswordEncoder();
-		String hashedPassword = pw.encode(password);
-		staff.setPassword(hashedPassword);
+		staff.setPassword(password);
 		staffService.addStaff(staff);
 		
 		Roles role = new Roles(email,"ROLE_STAFF");
 		rolesService.addRoles(role);
 		
-		Users user = new Users(id,email,hashedPassword,1);
+		Users user = new Users(id,email,password,1);
 		usersService.addUser(user);
 	}
 	

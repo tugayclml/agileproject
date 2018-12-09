@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="customers")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class Customers implements Serializable{
 
@@ -24,7 +23,16 @@ public class Customers implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	
+
+	public Customers(String name, String surname, String email, String password, String phoneNumber, int enabled) {
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.password = password;
+		this.phoneNumber = phoneNumber;
+		this.enabled = enabled;
+	}
+
 	private String name;
 	private String surname;
 	private String email;
