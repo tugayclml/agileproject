@@ -1,7 +1,6 @@
 package com.halisaha;
 
 import com.halisaha.customer.service.CustomersService;
-import com.sun.xml.internal.ws.api.pipe.ContentType;
 import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +24,7 @@ import org.junit.Assert;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class HalisahaApplicationTests {
+public class CustomerEndPointTest {
 
     public Customers customer ;
     public CustomersService customersService;
@@ -72,13 +71,36 @@ public class HalisahaApplicationTests {
 
 		HttpHeaders headers = new HttpHeaders();
 
-
-		HttpEntity<Customers> request = new HttpEntity<Customers>(customer, headers);
-
-		ResponseEntity<String> response = restTemplate.postForEntity( "http://localhost:8080/customer/564412312", request , String.class );
+		ResponseEntity<String> response = restTemplate.getForEntity( "http://localhost:8080/customer/564412312" , String.class );
 
 
 		JSONAssert.assertEquals( null, response.getBody(), false);
+
+	}
+
+	@Test
+	public void getIndividualCustomerData() {
+
+		Customers single_customer = customersService.getUser(1);
+
+		ResponseEntity<String> response = restTemplate.getForEntity( "http://localhost:8080/customer/1" , String.class );
+
+		System.out.println("### HOOPPPPP #### ");
+
+		System.out.println(response.getBody());
+
+		String expected = "{\n" +
+				"\"id\": 1,\n" +
+				"\"name\": \"emir\",\n" +
+				"\"surname\": \"asdf\",\n" +
+				"\"email\": \"asd@asd.com\",\n" +
+				"\"password\": \"asdbasd123\",\n" +
+				"\"phoneNumber\": null,\n" +
+				"\"enabled\": 0\n" +
+				"}";
+
+		response.getBody();
+
 
 	}
 
