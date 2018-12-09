@@ -1,4 +1,4 @@
-package com.halisaha.cutomer.service;
+package com.halisaha.customer.service;
 
 import java.util.ArrayList;
 import java.util.List;

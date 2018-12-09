@@ -1,4 +1,4 @@
-package com.halisaha.cutomer.controller;
+package com.halisaha.customer.controller;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.halisaha.customer.model.Customers;
-import com.halisaha.cutomer.service.CustomersService;
+import com.halisaha.customer.service.CustomersService;
 import com.halisaha.role.model.Roles;
 import com.halisaha.role.service.RolesService;
 import com.halisaha.users.model.Users;
@@ -30,23 +30,25 @@ public class CustomersController {
 	@Autowired
 	private UsersService usersService; 
 	
-	@CrossOrigin(origins="http://192.168.2.132:4200")
+	@CrossOrigin(origins="http://localhost:8080")
 	@RequestMapping("/customers")
 	public List<Customers> getAllUsers(){
 		return cutomerService.getAllUsers();
 	}
 
+	@CrossOrigin(origins="http://localhost:8080")
 	@RequestMapping("/userRoles")
 	public List<Roles> getAllRoles(){
 		return rolesService.getAllRoles();
 	}
 
+	@CrossOrigin(origins="http://localhost:8080")
 	@RequestMapping("/customer/{id}")
 	public Customers getUser(@PathVariable int id) {
 		return cutomerService.getUser(id);
 	}
 	
-	@CrossOrigin(origins="http://192.168.2.132:4200")
+	@CrossOrigin(origins="http://localhost:8080")
 	@RequestMapping(method=RequestMethod.POST,value="/customer/addCustomer")
 	public void addUser(@RequestBody Customers customer) {
 		int id = customer.getId();
@@ -66,14 +68,14 @@ public class CustomersController {
 		
 	}
 	
-	@CrossOrigin(origins="http://192.168.2.132:4200")
+	@CrossOrigin(origins="http://localhost:8080")
 	@RequestMapping(method=RequestMethod.PUT,value="/customer/updateCustomer/{id}")
 	public void updateUser(@RequestBody Customers customer, @PathVariable int id) {
 		cutomerService.updateUser(id, customer);
  
 	}
 	
-	@CrossOrigin(origins="http://192.168.2.132:4200")
+	@CrossOrigin(origins="http://localhost:8080")
 	@RequestMapping(method=RequestMethod.DELETE,value="/customer/deleteCustomer/{id}")
 	public void deleteUser(@PathVariable int id) {
 		cutomerService.deleteUser(id);
