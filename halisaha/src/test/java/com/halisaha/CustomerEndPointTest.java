@@ -78,24 +78,6 @@ public class CustomerEndPointTest {
 
 	}
 
-	@Test
-	public void getIndividualCustomerData() throws JSONException {
-
-		ResponseEntity<String> response = restTemplate.getForEntity( "http://localhost:8080/customer/4" , String.class );
-
-		String expected = "{\n" +
-				"\"id\": 4,\n" +
-				"\"name\": \"Emir\",\n" +
-				"\"surname\": \"Ozbir\",\n" +
-				"\"email\": \"emirozbir@hotmail.com\",\n" +
-				"\"password\": \"abcder34\",\n" +
-				"\"phoneNumber\": \"89467563\",\n" +
-				"\"enabled\": 0\n" +
-				"}";
-
-		JSONAssert.assertEquals( expected, response.getBody(), false);
-
-	}
 
 
 }

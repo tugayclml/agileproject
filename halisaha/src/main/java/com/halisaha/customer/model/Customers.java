@@ -37,6 +37,10 @@ public class Customers implements Serializable{
 		this.enabled = enabled;
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	private String name;
 	private String surname;
 	private String email;
