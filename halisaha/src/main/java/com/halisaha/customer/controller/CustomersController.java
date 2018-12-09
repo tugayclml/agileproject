@@ -21,7 +21,7 @@ import com.halisaha.users.service.UsersService;
 public class CustomersController {
 	
 	@Autowired
-	private CustomersService cutomerService;
+	private CustomersService customerService;
 	
 	@Autowired
 	private RolesService rolesService;
@@ -32,7 +32,7 @@ public class CustomersController {
 	@CrossOrigin(origins="http://localhost:8080")
 	@RequestMapping("/customers")
 	public List<Customers> getAllUsers(){
-		return cutomerService.getAllUsers();
+		return customerService.getAllUsers();
 	}
 
 	@CrossOrigin(origins="http://localhost:8080")
@@ -44,7 +44,7 @@ public class CustomersController {
 	@CrossOrigin(origins="http://localhost:8080")
 	@RequestMapping("/customer/{id}")
 	public Customers getUser(@PathVariable int id) {
-		return cutomerService.getUser(id);
+		return customerService.getUser(id);
 	}
 	
 	@CrossOrigin(origins="http://localhost:8080")
@@ -54,7 +54,7 @@ public class CustomersController {
 		String email = customer.getEmail();
 		String password = customer.getPassword();
 		customer.setPassword(password);
-		cutomerService.addUser(customer);
+		customerService.addUser(customer);
 		
 		Roles userRole = new Roles(email,"ROLE_USER");
 		rolesService.addRoles(userRole);
@@ -68,13 +68,13 @@ public class CustomersController {
 	@CrossOrigin(origins="http://localhost:8080")
 	@RequestMapping(method=RequestMethod.PUT,value="/customer/updateCustomer/{id}")
 	public void updateUser(@RequestBody Customers customer, @PathVariable int id) {
-		cutomerService.updateUser(id, customer);
+		customerService.updateUser(id, customer);
  
 	}
 	
 	@CrossOrigin(origins="http://localhost:8080")
 	@RequestMapping(method=RequestMethod.DELETE,value="/customer/deleteCustomer/{id}")
 	public void deleteUser(@PathVariable int id) {
-		cutomerService.deleteUser(id);
+		customerService.deleteUser(id);
 	}
 }
