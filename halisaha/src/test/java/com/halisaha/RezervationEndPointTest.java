@@ -19,13 +19,13 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.http.ResponseEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Assert;
-import com.halisaha.materials.model.Spikes;
+import com.halisaha.rezervation.model.Rezervation;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class SpikesEndPointTest {
+public class RezervationEndPointTest {
 
-    public Spikes spike ;
+    public Rezervation rezervation ;
 
     @LocalServerPort
     private int port;
@@ -37,14 +37,14 @@ public class SpikesEndPointTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void setSpike(){
+    public void testRezervationSet(){
 
-        spike = new Spikes(42,5);
+        rezervation = new Rezervation("09:00","BM Idman Yurdu - F.C Barcelona",160);
 
 
-        HttpEntity<Spikes> request = new HttpEntity<Spikes>(spike, headers);
+        HttpEntity<Rezervation> request = new HttpEntity<Rezervation>(rezervation, headers);
 
-        ResponseEntity<String> response = restTemplate.postForEntity( "http://localhost:8080/spike/addSpike", request , String.class );
+        ResponseEntity<String> response = restTemplate.postForEntity( "http://localhost:8080/rezervation/addRezervation", request , String.class );
 
         HttpStatus statusCode = response.getStatusCode();
 
@@ -53,10 +53,10 @@ public class SpikesEndPointTest {
     }
 
     @Test
-    public void getAllSpikes() throws JSONException {
+    public void getAllRezervation() throws JSONException {
 
 
-        ResponseEntity<String> response = restTemplate.getForEntity( "http://localhost:8080/spikes" , String.class );
+        ResponseEntity<String> response = restTemplate.getForEntity( "http://localhost:8080/rezervations" , String.class );
         JSONAssert.assertNotEquals( "[]", response.getBody(), false);
 
     }
