@@ -24,7 +24,11 @@ public class CustomersService {
 	public Customers getUser(int id) {
 		return customerRepository.findById(id).orElse(null);
 	}
-	
+
+	public Customers getUserByEmail(String email){
+		return customerRepository.findByEmail(email);
+	}
+
 	public void addUser(Customers user) {
 		customerRepository.save(user);
 	}

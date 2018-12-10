@@ -33,9 +33,7 @@ public class CustomerServiceTest {
     @Test
     public void testCustomerService() {
 
-
         Customers customer_test = customersService.getUser(customer.getId());
-
         assert("Bozdogan".matches(customer_test.getName()) ) ;
 
     }

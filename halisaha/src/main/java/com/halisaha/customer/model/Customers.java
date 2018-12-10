@@ -2,11 +2,7 @@ package com.halisaha.customer.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +24,10 @@ public class Customers implements Serializable{
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
+	@Column(unique = true)
+	private String email;
+
+
 	public Customers(String name, String surname, String email, String password, String phoneNumber, int enabled) {
 		this.name = name;
 		this.surname = surname;
@@ -43,7 +43,6 @@ public class Customers implements Serializable{
 
 	private String name;
 	private String surname;
-	private String email;
 	private String password;
 	private String phoneNumber;
 	private int enabled;

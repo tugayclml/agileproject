@@ -1,7 +1,11 @@
 package com.halisaha;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.halisaha.customer.service.CustomersService;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,9 +21,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.skyscreamer.jsonassert.JSONAssert;
-
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import org.springframework.http.ResponseEntity;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Assert;
 
 @RunWith(SpringRunner.class)
@@ -27,7 +32,6 @@ import org.junit.Assert;
 public class CustomerEndPointTest {
 
     public Customers customer ;
-    public CustomersService customersService;
 	int customerId ;
 
 
@@ -39,6 +43,9 @@ public class CustomerEndPointTest {
 
 	@Autowired
 	private TestRestTemplate restTemplate;
+
+	@Autowired
+	public CustomersService customersService;
 
 	@Test
 	public void setCustomers() throws  Exception{
@@ -60,8 +67,6 @@ public class CustomerEndPointTest {
 
         Assert.assertTrue(("200".matches(statusCode.toString())));
 
-        this.customerId = customer.getId();
-
 	}
 
 	@Test
@@ -71,10 +76,25 @@ public class CustomerEndPointTest {
 
 		HttpHeaders headers = new HttpHeaders();
 
-		ResponseEntity<String> response = restTemplate.getForEntity( "http://localhost:8080/customer/564412312" , String.class );
+		ResponseEntity<String> response = restTemplate.getForEntity( "http://localhost:8080/customer/asdasd" , String.class );
 
 
 		JSONAssert.assertEquals( null, response.getBody(), false);
+
+	}
+
+
+	@Test
+	public void getIndividualCustomer() throws JSONException{
+		HttpEntity<Customers> entity = new HttpEntity<Customers>(customer, headers);
+		HttpHeaders headers = new HttpHeaders();
+
+		Customers customerTemp = customersService.getUserByEmail("recebim@hotmail.com");
+
+		ResponseEntity<JSONObject> response = restTemplate.getForEntity( "http://localhost:8080/customer/"+customerTemp.getId() , JSONObject.class );
+
+		assert((response.getStatusCode().toString().matches("200") ));
+
 
 	}
 
