@@ -72,10 +72,6 @@ public class CustomerEndPointTest {
 	@Test
 	public void getErrorIndividualCustomer() throws JSONException {
 
-		HttpEntity<Customers> entity = new HttpEntity<Customers>(customer, headers);
-
-		HttpHeaders headers = new HttpHeaders();
-
 		ResponseEntity<String> response = restTemplate.getForEntity( "http://localhost:8080/customer/asdasd" , String.class );
 
 

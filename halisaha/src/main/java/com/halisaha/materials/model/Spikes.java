@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="spikes")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class Spikes implements Serializable{
 	
@@ -23,7 +22,12 @@ public class Spikes implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	
+
+	public Spikes(int spikeSize, int spikeNumber) {
+		this.spikeSize = spikeSize;
+		this.spikeNumber = spikeNumber;
+	}
+
 	private int spikeSize;
 	private int spikeNumber;
 	
