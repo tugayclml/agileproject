@@ -2,6 +2,7 @@ package com.halisaha.users.service;
 
 import java.util.List;
 import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +23,10 @@ public class UsersService {
 	
 	public void addUser(Users user) {
 		usersRepository.save(user);
+	}
+
+
+	public Users getUser(int id) {
+		return usersRepository.findById(id).orElse(null);
 	}
 }
