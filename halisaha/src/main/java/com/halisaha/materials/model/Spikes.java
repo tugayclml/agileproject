@@ -27,4 +27,8 @@ public class Spikes implements Serializable{
 	private int spikeSize;
 	private int spikeNumber;
 	
+	public Spikes(int spikeSize,int spikeNumber) {
+		this.spikeSize = spikeSize;
+		this.spikeNumber = spikeNumber;
+	}
 }

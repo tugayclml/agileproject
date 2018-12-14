@@ -7,13 +7,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="users")
+@Table(name="users",uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,4 +29,10 @@ public class Users implements Serializable{
 	private String email;
 	private String password;
 	private int enabled;
+	
+	public Users(String email,String password,int enabled) {
+		this.email=email;
+		this.password=password;
+		this.enabled=enabled;
+	}
 }

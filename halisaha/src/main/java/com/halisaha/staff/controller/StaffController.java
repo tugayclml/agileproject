@@ -3,6 +3,7 @@ package com.halisaha.staff.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,22 +32,27 @@ public class StaffController {
 	@Autowired
 	private UsersService usersService; 
 	
-	@CrossOrigin(origins="http://192.168.2.132:8080")
-	@RequestMapping("/staffs")
+	@CrossOrigin(origins="http://localhost:4200")
+	@RequestMapping(value="/staffs",
+			produces = MediaType.APPLICATION_JSON_VALUE, 
+            consumes = MediaType.APPLICATION_JSON_VALUE)
 	public List<Staff> getAllStaffs(){
 		return staffService.getAllStaffs();
 	}
 	
-	@CrossOrigin(origins="http://192.168.2.132:4200")
-	@RequestMapping("/staffs/{id}")
+	@CrossOrigin(origins="http://localhost:4200")
+	@RequestMapping(value="/staffs/{id}",
+			produces = MediaType.APPLICATION_JSON_VALUE, 
+            consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Staff getStaff(@PathVariable int id) {
 		return staffService.getStaff(id);
 	}
-	
-	@CrossOrigin(origins="http://192.168.2.132:4200")
-	@RequestMapping(method=RequestMethod.POST,value="/staffs/addStaff")
+
+	@CrossOrigin(origins="http://localhost:4200")
+	@RequestMapping(method=RequestMethod.POST,value="/staffs/addStaff",
+			produces = MediaType.APPLICATION_JSON_VALUE, 
+            consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void addStaff(@RequestBody Staff staff) {
-		int id = staff.getId();
 		String email = staff.getEmail();
 		String password = staff.getPassword();
 		BCryptPasswordEncoder pw = new BCryptPasswordEncoder();
@@ -57,18 +63,22 @@ public class StaffController {
 		Roles role = new Roles(email,"ROLE_STAFF");
 		rolesService.addRoles(role);
 		
-		Users user = new Users(id,email,hashedPassword,1);
+		Users user = new Users(email,hashedPassword,1);
 		usersService.addUser(user);
 	}
 	
-	@CrossOrigin(origins="http://192.168.2.132:4200")
-	@RequestMapping(method=RequestMethod.PUT,value="/staffs/updateStaff/{id}")
+	@CrossOrigin(origins="http://localhost:4200")
+	@RequestMapping(method=RequestMethod.PUT,value="/staffs/updateStaff/{id}",
+			produces = MediaType.APPLICATION_JSON_VALUE, 
+            consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void updateStaff(@RequestBody Staff staff,@PathVariable int id) {
 		staffService.updateStaff(staff, id);
 	}
 	
-	@CrossOrigin(origins="http://192.168.2.132:4200")
-	@RequestMapping(method=RequestMethod.DELETE,value="/staffs/deleteStaff/{id}")
+	@CrossOrigin(origins="http://localhost:4200")
+	@RequestMapping(method=RequestMethod.DELETE,value="/staffs/deleteStaff/{id}",
+			produces = MediaType.APPLICATION_JSON_VALUE, 
+            consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void deleteStaff(@PathVariable int id) {
 		staffService.deleteStaff(id);
 	}

@@ -3,6 +3,7 @@ package com.halisaha.rezervation.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,32 +20,43 @@ public class RezervationsController {
 	@Autowired
 	private RezervationsService rezervationsService;
 	
-	@CrossOrigin(origins="http://192.168.2.132:4200")
-	@RequestMapping("/rezervations")
+	@CrossOrigin(origins="http://localhost:4200")
+	@RequestMapping(value="/rezervations",
+			produces = MediaType.APPLICATION_JSON_VALUE, 
+            consumes = MediaType.APPLICATION_JSON_VALUE)
 	public List<Rezervation> getAllRezervations(){
 		return rezervationsService.getAllRezervations();
 	}
 	
-	@CrossOrigin(origins="http://192.168.2.132:4200")
-	@RequestMapping("/rezervation/{id}")
+	@CrossOrigin(origins="http://localhost:4200")
+	@RequestMapping(value="/rezervation/{id}",
+			produces = MediaType.APPLICATION_JSON_VALUE, 
+            consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Rezervation getRezervation(@PathVariable int id) {
 		return rezervationsService.getRezervation(id);
 	}
 	
-	@CrossOrigin(origins="http://192.168.2.132:4200")
-	@RequestMapping(method=RequestMethod.POST,value="/rezervation/addRezervation")
-	public void addRezervation(@RequestBody Rezervation rezervation) {
+	@CrossOrigin(origins="http://localhost:4200")
+	@RequestMapping(method=RequestMethod.POST,value="/rezervation/addRezervation/{rezervatedName}",
+			produces = MediaType.APPLICATION_JSON_VALUE, 
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void addRezervation(@RequestBody Rezervation rezervation,@PathVariable String rezervatedName) {
+		rezervation.setRezervatedName(rezervatedName);
 		rezervationsService.addReservation(rezervation);
 	}
 	
-	@CrossOrigin(origins="http://192.168.2.132:4200")
-	@RequestMapping(method=RequestMethod.PUT,value="/rezervation/updateRezervation/{id}")
+	@CrossOrigin(origins="http://localhost:4200")
+	@RequestMapping(method=RequestMethod.PUT,value="/rezervation/updateRezervation/{id}",
+			produces = MediaType.APPLICATION_JSON_VALUE, 
+            consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void updateRezervation(@RequestBody Rezervation rezervation,@PathVariable int id) {
 		rezervationsService.updateRezervation(id, rezervation);
 	}
 	
-	@CrossOrigin(origins="http://192.168.2.132:4200")
-	@RequestMapping(method=RequestMethod.DELETE,value="/rezervation/deleteRezervation/{id}")
+	@CrossOrigin(origins="http://localhost:4200")
+	@RequestMapping(method=RequestMethod.DELETE,value="/rezervation/deleteRezervation/{id}",
+			produces = MediaType.APPLICATION_JSON_VALUE, 
+            consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void deleteRezervation(@PathVariable int id) {
 		rezervationsService.deleteRezervation(id);
 	}

@@ -1,5 +1,6 @@
 package com.halisaha.filter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -24,7 +25,7 @@ public class TokenAuthenticationService {
 	static final String TOKEN_PREFIX = "Bearer";
 	static final String HEADER_STRING = "Authorization";
 
-	public static void addAuthentication(HttpServletResponse res, Authentication auth) {
+	public static void addAuthentication(HttpServletResponse res, Authentication auth) throws IOException {
 
 		String concattedRoles = "";
 		for (GrantedAuthority ga : auth.getAuthorities()) {
@@ -35,11 +36,19 @@ public class TokenAuthenticationService {
 			}
 
 		}
-
-		String JWT = Jwts.builder().setSubject(auth.getName()).claim("roles", concattedRoles)
+		
+		String token = Jwts.builder().setSubject(auth.getName()).claim("roles", concattedRoles)
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
 				.signWith(SignatureAlgorithm.HS512, SECRET).compact();
-		res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
+		
+		
+		
+		
+		res.setContentType("application/json");
+		String newContent = "{ \"token\" : \" "+token + " \" }";
+		res.setContentLength(newContent .length());
+		res.setCharacterEncoding("UTF-8");
+		res.getWriter().write(newContent);
 	}
 
 	public static Authentication getAuthentication(HttpServletRequest request) {

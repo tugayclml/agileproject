@@ -28,6 +28,10 @@ public class Rezervation implements Serializable{
 	private String rezervatedName;
 	private int rezervatedPrice;
 	
-	
+	public Rezervation(String rezervatedHour, String rezervatedName, int rezervatedPrice) {
+		this.rezervatedHour = rezervatedHour;
+		this.rezervatedName = rezervatedName;
+		this.rezervatedPrice = rezervatedPrice;
+	}
 
 }

@@ -24,7 +24,11 @@ public class SportVest implements Serializable{
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	private int vestColor;
+	private String vestColor;
 	private int vestNumber;
 	
+	public SportVest(String vestColor,int vestNumber) {
+		this.vestColor = vestColor;
+		this.vestNumber = vestNumber;
+	}
 }
