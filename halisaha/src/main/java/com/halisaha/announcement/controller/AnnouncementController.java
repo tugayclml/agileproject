@@ -53,10 +53,8 @@ public class AnnouncementController {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(value="/announcements/deleteAnnouncement/{announcementTitle}",method=RequestMethod.DELETE,
-			produces = MediaType.APPLICATION_JSON_VALUE,
-			consumes = MediaType.APPLICATION_JSON_VALUE)
-	private void deleteAnnouncement(@PathVariable String announcementTitle) {
-		announcementService.deleteAnnouncement(announcementTitle);
+	@RequestMapping(value="/announcements/deleteAnnouncement/{id}",method=RequestMethod.DELETE)
+	private void deleteAnnouncement(@PathVariable int id) {
+		announcementService.deleteAnnouncement(id);
 	}
 }

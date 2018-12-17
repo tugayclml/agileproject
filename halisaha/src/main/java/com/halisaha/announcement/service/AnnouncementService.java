@@ -31,8 +31,8 @@ public class AnnouncementService {
 		announcementRepository.save(announcement);
 	}
 	
-	public void deleteAnnouncement(String announcementTitle) {
-		announcementRepository.deleteByAnnouncementTitle(announcementTitle);
+	public void deleteAnnouncement(int id) {
+		announcementRepository.deleteById(id);
 	}
 
 }

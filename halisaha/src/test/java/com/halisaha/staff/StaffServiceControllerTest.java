@@ -1,4 +1,4 @@
-package com.halisaha.announcement;
+package com.halisaha.staff;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -15,13 +15,13 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.halisaha.Abstract.AbstractTest;
-import com.halisaha.announcement.model.Announcement;
-import com.halisaha.announcement.repository.AnnouncementRepository;
+import com.halisaha.staff.model.Staff;
+import com.halisaha.staff.repository.StaffRepository;
 
-public class AnnouncementServiceTest extends AbstractTest{
+public class StaffServiceControllerTest extends AbstractTest{
 
 	@Autowired
-	private AnnouncementRepository repository;
+	private StaffRepository repository;
 	
 	@Override
 	@Before
@@ -30,8 +30,8 @@ public class AnnouncementServiceTest extends AbstractTest{
 	}
 	
 	@Test
-	public void getAllAnnouncements() throws Exception{
-		String uri="/announcements";
+	public void getAllStaffs() throws Exception{
+		String uri="/staffs";
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
 		MvcResult mvcResult = 
@@ -43,20 +43,24 @@ public class AnnouncementServiceTest extends AbstractTest{
 		assertEquals(200, status);
 		String content = mvcResult.getResponse().getContentAsString();
 		System.out.println("-------------- Content : " + content);
-		Announcement[] announcements = super.mapFromJson(content, Announcement[].class);
-		assertTrue(announcements.length>0);
+		Staff[] staffs = super.mapFromJson(content, Staff[].class);
+		assertTrue(staffs.length>0);
 	}
 	
 	@Test
-	public void addAnnouncement() throws Exception{
-		String uri="/announcements/addAnnouncement";
+	public void addStaff() throws Exception{
+		String uri="/staffs/addStaff";
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
-		Announcement announcement = new Announcement();
-		announcement.setAnnouncementTitle("Tatil");
-		announcement.setAnnouncementContent("Bilmem ne bilmem ne");
+		Staff staff = new Staff();
+		staff.setName("Ferdi");
+		staff.setSurname("Tayfur");
+		staff.setEmail("ferdibabaaaaa@hotmail.com");
+		staff.setPassword("ferdi");
+		staff.setEnabled(1);
+		staff.setPhoneNumber("05645464643");
 		
-		String inputJson = super.mapToJson(announcement);
+		String inputJson = super.mapToJson(staff);
 		MvcResult mvcResult = 
 				mvc.perform(MockMvcRequestBuilders.post(uri).headers(headers).contentType(MediaType.APPLICATION_JSON_VALUE).
 						content(inputJson)).andReturn();
@@ -70,20 +74,21 @@ public class AnnouncementServiceTest extends AbstractTest{
 	}
 	
 	@Test
-	public void updateAnnouncement() throws Exception{
-		List<Announcement> list = new ArrayList<>();
+	public void updateStaff() throws Exception{
+		List<Staff> list = new ArrayList<>();
 		repository.findAll().forEach(list::add);
 		
 		int id = list.get(0).getId();
-		System.out.println("*-*-*--*-*--* Announcement id  : " + id);
+		System.out.println("*-*-*--*-*--* Admin id  : " + id);
 		
-		String uri = "/announcements/updateAnnouncement/" + id;
+		String uri = "/staffs/updateStaff/" + id;
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
-		Announcement announcement = new Announcement();
-		announcement.setAnnouncementContent("Bilmem ne de bilmem ne 2");
+		Staff staff = new Staff();
+		staff.setEmail("Broooo@gmail.com");
 		
-		String inputJson = super.mapToJson(announcement);
+		
+		String inputJson = super.mapToJson(staff);
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(uri).headers(headers)
 				.contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
 		
@@ -97,14 +102,14 @@ public class AnnouncementServiceTest extends AbstractTest{
 	}
 	
 	@Test
-	public void deleteAnnouncement() throws Exception{
-		List<Announcement> list = new ArrayList<>();
+	public void deleteStaff() throws Exception{
+		List<Staff> list = new ArrayList<>();
 		repository.findAll().forEach(list::add);
 		
 		int id = list.get(0).getId();
-		System.out.println("*-*-*--*-*--* Announcement id : " + id);
+		System.out.println("*-*-*--*-*--* Admin id : " + id);
 		
-		String uri="/announcements/deleteAnnouncement/" + id;
+		String uri="/staffs/deleteStaff/" + id;
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)).andReturn();
 		
 		int status = mvcResult.getResponse().getStatus();

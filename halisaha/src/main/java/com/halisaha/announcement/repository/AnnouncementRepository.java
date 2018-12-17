@@ -6,5 +6,4 @@ import com.halisaha.announcement.model.Announcement;
 
 public interface AnnouncementRepository extends CrudRepository<Announcement, Integer>{
 	public Announcement findByAnnouncementTitle(String announcementTitle);
-	public Announcement deleteByAnnouncementTitle(String announcementTitle);
 }

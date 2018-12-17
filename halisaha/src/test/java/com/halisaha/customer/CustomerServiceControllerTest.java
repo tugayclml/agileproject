@@ -1,4 +1,4 @@
-package com.halisaha.announcement;
+package com.halisaha.customer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -15,13 +15,13 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.halisaha.Abstract.AbstractTest;
-import com.halisaha.announcement.model.Announcement;
-import com.halisaha.announcement.repository.AnnouncementRepository;
+import com.halisaha.customer.model.Customers;
+import com.halisaha.customer.repository.CustomersRepository;
 
-public class AnnouncementServiceTest extends AbstractTest{
-
+public class CustomerServiceControllerTest extends AbstractTest{
+	
 	@Autowired
-	private AnnouncementRepository repository;
+	private CustomersRepository repository;
 	
 	@Override
 	@Before
@@ -30,8 +30,8 @@ public class AnnouncementServiceTest extends AbstractTest{
 	}
 	
 	@Test
-	public void getAllAnnouncements() throws Exception{
-		String uri="/announcements";
+	public void getAllCustomers() throws Exception{
+		String uri="/customers";
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
 		MvcResult mvcResult = 
@@ -43,20 +43,24 @@ public class AnnouncementServiceTest extends AbstractTest{
 		assertEquals(200, status);
 		String content = mvcResult.getResponse().getContentAsString();
 		System.out.println("-------------- Content : " + content);
-		Announcement[] announcements = super.mapFromJson(content, Announcement[].class);
-		assertTrue(announcements.length>0);
+		Customers[] customers = super.mapFromJson(content, Customers[].class);
+		assertTrue(customers.length>0);
 	}
 	
 	@Test
-	public void addAnnouncement() throws Exception{
-		String uri="/announcements/addAnnouncement";
+	public void addCustomer() throws Exception{
+		String uri="/customer/addCustomer";
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
-		Announcement announcement = new Announcement();
-		announcement.setAnnouncementTitle("Tatil");
-		announcement.setAnnouncementContent("Bilmem ne bilmem ne");
+		Customers customer = new Customers();
+		customer.setName("İlker");
+		customer.setSurname("Yasin Özdemir");
+		customer.setEmail("ilker.yasin@gmail.com");
+		customer.setPassword("ilker");
+		customer.setPhoneNumber("05369874125");
+		customer.setEnabled(1);
 		
-		String inputJson = super.mapToJson(announcement);
+		String inputJson = super.mapToJson(customer);
 		MvcResult mvcResult = 
 				mvc.perform(MockMvcRequestBuilders.post(uri).headers(headers).contentType(MediaType.APPLICATION_JSON_VALUE).
 						content(inputJson)).andReturn();
@@ -70,20 +74,20 @@ public class AnnouncementServiceTest extends AbstractTest{
 	}
 	
 	@Test
-	public void updateAnnouncement() throws Exception{
-		List<Announcement> list = new ArrayList<>();
+	public void updateCustomer() throws Exception{
+		List<Customers> list = new ArrayList<>();
 		repository.findAll().forEach(list::add);
 		
 		int id = list.get(0).getId();
-		System.out.println("*-*-*--*-*--* Announcement id  : " + id);
+		System.out.println("*-*-*--*-*--* id : " + id);
 		
-		String uri = "/announcements/updateAnnouncement/" + id;
+		String uri = "/customer/updateCustomer/" + id;
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
-		Announcement announcement = new Announcement();
-		announcement.setAnnouncementContent("Bilmem ne de bilmem ne 2");
+		Customers customer = new Customers();
+		customer.setName("İLKER");
 		
-		String inputJson = super.mapToJson(announcement);
+		String inputJson = super.mapToJson(customer);
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(uri).headers(headers)
 				.contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
 		
@@ -97,14 +101,14 @@ public class AnnouncementServiceTest extends AbstractTest{
 	}
 	
 	@Test
-	public void deleteAnnouncement() throws Exception{
-		List<Announcement> list = new ArrayList<>();
+	public void deleteCustomer() throws Exception{
+		List<Customers> list = new ArrayList<>();
 		repository.findAll().forEach(list::add);
 		
 		int id = list.get(0).getId();
-		System.out.println("*-*-*--*-*--* Announcement id : " + id);
+		System.out.println("*-*-*--*-*--* id : " + id);
 		
-		String uri="/announcements/deleteAnnouncement/" + id;
+		String uri="/customer/deleteCustomer/" + id;
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)).andReturn();
 		
 		int status = mvcResult.getResponse().getStatus();

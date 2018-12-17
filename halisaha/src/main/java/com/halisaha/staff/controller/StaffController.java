@@ -76,9 +76,7 @@ public class StaffController {
 	}
 	
 	@CrossOrigin(origins="http://localhost:4200")
-	@RequestMapping(method=RequestMethod.DELETE,value="/staffs/deleteStaff/{id}",
-			produces = MediaType.APPLICATION_JSON_VALUE, 
-            consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method=RequestMethod.DELETE,value="/staffs/deleteStaff/{id}")
 	public void deleteStaff(@PathVariable int id) {
 		staffService.deleteStaff(id);
 	}

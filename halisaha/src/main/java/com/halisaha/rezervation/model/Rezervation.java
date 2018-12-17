@@ -26,11 +26,15 @@ public class Rezervation implements Serializable{
 	
 	private String rezervatedHour;
 	private String rezervatedName;
+	private int rezervatedSpikes;
+	private int rezervatedSportVests;
 	private int rezervatedPrice;
 	
-	public Rezervation(String rezervatedHour, String rezervatedName, int rezervatedPrice) {
+	public Rezervation(String rezervatedHour, String rezervatedName,int rezervatedSpikes,int rezervatedSportVest, int rezervatedPrice) {
 		this.rezervatedHour = rezervatedHour;
 		this.rezervatedName = rezervatedName;
+		this.rezervatedSpikes = rezervatedSpikes;
+		this.rezervatedSportVests = rezervatedSportVest;
 		this.rezervatedPrice = rezervatedPrice;
 	}
 

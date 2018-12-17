@@ -37,11 +37,10 @@ public class RezervationsController {
 	}
 	
 	@CrossOrigin(origins="http://localhost:4200")
-	@RequestMapping(method=RequestMethod.POST,value="/rezervation/addRezervation/{rezervatedName}",
+	@RequestMapping(method=RequestMethod.POST,value="/rezervation/addRezervation",
 			produces = MediaType.APPLICATION_JSON_VALUE, 
             consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void addRezervation(@RequestBody Rezervation rezervation,@PathVariable String rezervatedName) {
-		rezervation.setRezervatedName(rezervatedName);
+	public void addRezervation(@RequestBody Rezervation rezervation) {
 		rezervationsService.addReservation(rezervation);
 	}
 	
@@ -54,9 +53,7 @@ public class RezervationsController {
 	}
 	
 	@CrossOrigin(origins="http://localhost:4200")
-	@RequestMapping(method=RequestMethod.DELETE,value="/rezervation/deleteRezervation/{id}",
-			produces = MediaType.APPLICATION_JSON_VALUE, 
-            consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method=RequestMethod.DELETE,value="/rezervation/deleteRezervation/{id}")
 	public void deleteRezervation(@PathVariable int id) {
 		rezervationsService.deleteRezervation(id);
 	}

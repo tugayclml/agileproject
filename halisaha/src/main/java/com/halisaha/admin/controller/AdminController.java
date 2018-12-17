@@ -43,7 +43,9 @@ public class AdminController {
 	}
 	
 	@CrossOrigin(origins="http://localhost:4200")
-	@RequestMapping(value="/admins/{id}")
+	@RequestMapping(value="/admins/{id}",method=RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE, 
+            consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Admin getAdmin(@PathVariable int id) {
 		return adminService.getAdmin(id);
 	}
@@ -66,13 +68,6 @@ public class AdminController {
 		
 		Users users = new Users(email,hashedPassword,1);
 		usersService.addUser(users);
-			
-		String responseMessage = admin.getName() + admin.getSurname() + " created successfully!";
-		res.setContentType("application/json");
-		String newContent = "{ \"Message\" : \" "+ responseMessage + " \" }";
-		res.setContentLength(newContent .length());
-		res.setCharacterEncoding("UTF-8");
-		res.getWriter().write(newContent);
 	}
 	
 	@CrossOrigin(origins="http://localhost:4200")
@@ -84,10 +79,8 @@ public class AdminController {
 	}
 	
 	@CrossOrigin(origins="http://localhost:4200")
-	@RequestMapping(value="/admins/deleteAdmin",method=RequestMethod.DELETE,
-			produces = MediaType.APPLICATION_JSON_VALUE, 
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void deleteAdmin(int id) {
+	@RequestMapping(value="/admins/deleteAdmin/{id}",method=RequestMethod.DELETE)
+	public void deleteAdmin(@PathVariable int id) {
 		adminService.deleteAdmin(id);
 	}
 	

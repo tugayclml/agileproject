@@ -78,8 +78,6 @@ public class CustomersController {
 		
 		Users users = new Users(email,hashedPassword,1);
 		usersService.addUser(users);
-		
-		
 	}
 	
 	@CrossOrigin(origins="http://localhost:4200")
@@ -92,9 +90,7 @@ public class CustomersController {
 	}
 	
 	@CrossOrigin(origins="http://localhost:4200")
-	@RequestMapping(method=RequestMethod.DELETE,value="/customer/deleteCustomer/{id}",
-			produces = MediaType.APPLICATION_JSON_VALUE, 
-            consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method=RequestMethod.DELETE,value="/customer/deleteCustomer/{id}")
 	public void deleteUser(@PathVariable int id) {
 		cutomerService.deleteUser(id);
 	}

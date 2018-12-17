@@ -1,27 +1,25 @@
-package com.halisaha.announcement;
+package com.halisaha.rezervation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import com.halisaha.Abstract.AbstractTest;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.halisaha.rezervation.model.Rezervation;
+import com.halisaha.rezervation.repository.RezervationsRepository;
 
-import com.halisaha.Abstract.AbstractTest;
-import com.halisaha.announcement.model.Announcement;
-import com.halisaha.announcement.repository.AnnouncementRepository;
-
-public class AnnouncementServiceTest extends AbstractTest{
-
+public class RezervationServiceControllerTest extends AbstractTest{
+	
 	@Autowired
-	private AnnouncementRepository repository;
+	private RezervationsRepository repository;
 	
 	@Override
 	@Before
@@ -30,8 +28,8 @@ public class AnnouncementServiceTest extends AbstractTest{
 	}
 	
 	@Test
-	public void getAllAnnouncements() throws Exception{
-		String uri="/announcements";
+	public void getAllRezervation() throws Exception{
+		String uri="/rezervations";
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
 		MvcResult mvcResult = 
@@ -43,23 +41,27 @@ public class AnnouncementServiceTest extends AbstractTest{
 		assertEquals(200, status);
 		String content = mvcResult.getResponse().getContentAsString();
 		System.out.println("-------------- Content : " + content);
-		Announcement[] announcements = super.mapFromJson(content, Announcement[].class);
-		assertTrue(announcements.length>0);
+ 		Rezervation[] rezervation = super.mapFromJson(content, Rezervation[].class);
+		assertTrue(rezervation.length>0);
 	}
 	
 	@Test
-	public void addAnnouncement() throws Exception{
-		String uri="/announcements/addAnnouncement";
+	public void addRezervation() throws Exception{
+		String uri="/rezervation/addRezervation";
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
-		Announcement announcement = new Announcement();
-		announcement.setAnnouncementTitle("Tatil");
-		announcement.setAnnouncementContent("Bilmem ne bilmem ne");
+		Rezervation rezervation = new Rezervation();
+		rezervation.setRezervatedHour("15:00");
+		rezervation.setRezervatedName("Sayid");
+		rezervation.setRezervatedSpikes(5);
+		rezervation.setRezervatedSportVests(15);
+		rezervation.setRezervatedPrice(150);
 		
-		String inputJson = super.mapToJson(announcement);
+		String inputJson = super.mapToJson(rezervation);
 		MvcResult mvcResult = 
 				mvc.perform(MockMvcRequestBuilders.post(uri).headers(headers).contentType(MediaType.APPLICATION_JSON_VALUE).
 						content(inputJson)).andReturn();
+		
 		
 		int status = mvcResult.getResponse().getStatus();
 		System.out.println("---------------POST status : "+ status);
@@ -70,20 +72,21 @@ public class AnnouncementServiceTest extends AbstractTest{
 	}
 	
 	@Test
-	public void updateAnnouncement() throws Exception{
-		List<Announcement> list = new ArrayList<>();
+	public void updateRezervation() throws Exception{
+		
+		List<Rezervation> list = new ArrayList<>();
 		repository.findAll().forEach(list::add);
 		
 		int id = list.get(0).getId();
-		System.out.println("*-*-*--*-*--* Announcement id  : " + id);
+		System.out.println("*-*-*--*-*--* id : " + id);
 		
-		String uri = "/announcements/updateAnnouncement/" + id;
+		String uri = "/rezervation/updateRezervation/"+id;
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
-		Announcement announcement = new Announcement();
-		announcement.setAnnouncementContent("Bilmem ne de bilmem ne 2");
+		Rezervation rezervation = new Rezervation();
+		rezervation.setRezervatedName("Muhammed Seyitttt");
 		
-		String inputJson = super.mapToJson(announcement);
+		String inputJson = super.mapToJson(rezervation);
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(uri).headers(headers)
 				.contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
 		
@@ -97,14 +100,15 @@ public class AnnouncementServiceTest extends AbstractTest{
 	}
 	
 	@Test
-	public void deleteAnnouncement() throws Exception{
-		List<Announcement> list = new ArrayList<>();
+	public void deleteRezervation() throws Exception{
+		
+		List<Rezervation> list = new ArrayList<>();
 		repository.findAll().forEach(list::add);
 		
 		int id = list.get(0).getId();
-		System.out.println("*-*-*--*-*--* Announcement id : " + id);
+		System.out.println("*-*-*--*-*--* id : " + id);
 		
-		String uri="/announcements/deleteAnnouncement/" + id;
+		String uri="/rezervation/deleteRezervation/"+id;
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)).andReturn();
 		
 		int status = mvcResult.getResponse().getStatus();
